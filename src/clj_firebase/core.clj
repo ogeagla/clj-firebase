@@ -11,10 +11,10 @@
     (let [opts (.Builder (FirebaseOptions.))])
     )
 
-#_(def db
+(def db
   (with-open
     [service-account (io/input-stream
-                       "service-account.json")]
+                       "ogtest-5bd9c-firebase-adminsdk-e19h3-46a0b800fc.json")]
     (let [opts (->
                  (FirebaseOptions$Builder.)
                  (.setCredential (FirebaseCredentials/fromCertificate service-account))
@@ -28,9 +28,12 @@
 
 (defn db-ref-get-in [^DatabaseReference db refs]
   "Returns a db ref to the new place in db with get-in syntax"
-  (r/reduce (fn [acc e]
-              (-> db
+  (println "stuff")
+  (r/reduce (fn
+              [acc e]
+              (-> acc
                   (.child e)))
+            db
             refs))
 
 (defn db-ref->value [^DatabaseReference db cb]
@@ -44,3 +47,4 @@
 
 (defn data-snapshot->value [^DataSnapshot snapshot]
   (.getValue snapshot))
+
